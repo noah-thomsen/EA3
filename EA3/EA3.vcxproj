@@ -151,7 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Chromosome.cpp" />
     <ClCompile Include="EA3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Chromosome.h" />
+    <ClInclude Include="Config.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

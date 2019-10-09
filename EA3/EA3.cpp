@@ -1,38 +1,75 @@
 // EA3.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
+#include <time.h>
 
-#define COMPLEXITY 10
+// Scenario Configuration
+#define NEIGHBORHOODS 10
+#define HOUSES 5
+#define MAX_NEIGHBORHOOD_POSITION 10000
+#define MAX_HOUSE_OFFSET 100
+
+// Algorithm Settings
+#define CHROMOSOMES 10
+#define GENERATIONS 200
+#define MUTATION_CHANCE 0.05
+
+// Misc
 #define RANDOM_SEED 101
-#define MAX_POSITION 100
 
-void printPoints(int*, int*, int*);
+struct House
+{
+	int x;
+	int y;
+};
+
+struct Neighborhood
+{
+	int x;
+	int y;
+	House Houses[HOUSES];
+};
+
+struct Chromosome
+{
+	int Neighboorhoods[NEIGHBORHOODS];
+	int Houses[NEIGHBORHOODS];
+};
+
+void printPoints(Neighborhood*, int, int);
 
 int main()
 {
-	int xpos[COMPLEXITY];
-	int ypos[COMPLEXITY];
-	int zpos[COMPLEXITY];
+	Neighborhood Neighborhoods[NEIGHBORHOODS];
 
 	srand(RANDOM_SEED);
 	
-	for (int i = 0; i < COMPLEXITY; i++)
+	for (int i = 0; i < NEIGHBORHOODS; i++)
 	{
-		xpos[i] = rand() % MAX_POSITION;
-		ypos[i] = rand() % MAX_POSITION;
-		zpos[i] = rand() % MAX_POSITION;
+		Neighborhoods[i].x = rand() % MAX_NEIGHBORHOOD_POSITION;
+		Neighborhoods[i].y = rand() % MAX_NEIGHBORHOOD_POSITION;
+
+		for (int j = 0; j < HOUSES; j++)
+		{
+			Neighborhoods[i].Houses[j].x = rand() % MAX_HOUSE_OFFSET + Neighborhoods[i].x;
+			Neighborhoods[i].Houses[j].y = rand() % MAX_HOUSE_OFFSET + Neighborhoods[i].y;
+		}
 	}
 
-	//tsp(xpos,ypos,zpos,COMPLEXITY);
-
-	printPoints(xpos, ypos, zpos);
+	printPoints(Neighborhoods,HOUSES,NEIGHBORHOODS);
 }
 
-void printPoints(int* xp, int* yp, int* zp)
+void printPoints(Neighborhood* nbrhds, int num_of_houses, int num_of_neighborhoods)
 {
-	for (int i = 0; i < COMPLEXITY; i++)
+	for (int i = 0; i < num_of_neighborhoods; i++)
 	{
-		std::cout << "X:" << xp[i] << " Y:" << yp[i] << " Z:" << zp[i] << std::endl;
+		std::cout << "Neighborhood: " << i + 1 << std::endl;
+		for (int j= 0; j < num_of_houses; j++)
+		{
+			std::cout << "House " << j + 1 << ": " << nbrhds[i].Houses[j].x << "," << nbrhds[i].Houses[j].y << std::endl;
+		}
 	}
 }
+
+
+
